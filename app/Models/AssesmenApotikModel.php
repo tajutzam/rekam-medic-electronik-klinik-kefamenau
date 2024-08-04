@@ -21,7 +21,7 @@ class AssesmenApotikModel extends Model
     public function getObatByPelayananId($pelayanan_id)
     {
         return $this->db->table('assesmen_apotik_detail')
-            ->select(['assesmen_apotik_detail.catatan', 'assesmen_apotik_detail.total', 'assesmen_apotik_detail.jumlah', 'assesmen_apotik_detail.id as id_detail', 'obat.*']) // Adjust the columns as needed
+            ->select(['assesmen_apotik_detail.catatan', 'assesmen_apotik_detail.total', 'assesmen_apotik_detail.jumlah', 'assesmen_apotik_detail.id as id_detail', 'obat.*', 'assesmen_apotik.id as id_apotik']) // Adjust the columns as needed
             ->join('assesmen_apotik', 'assesmen_apotik.id = assesmen_apotik_detail.assesmen_apotik_id')
             ->join('obat', 'assesmen_apotik_detail.obat_id = obat.id')
             ->where('assesmen_apotik.assesmen_id', $pelayanan_id)

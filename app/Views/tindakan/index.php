@@ -20,12 +20,11 @@
                 <!-- ./col -->
             </div>
             <section class="content">
-                <div class="container-fluid">
+                <div class="">
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-
                                     <?php if (session()->has('success')) : ?>
                                         <div class="alert alert-success">
                                             <?= session('success') ?>
@@ -49,7 +48,7 @@
                                             <tr>
                                                 <th>Kode Tindakan</th>
                                                 <th>Tindakan</th>
-                                                <th>Tarif</th>
+
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -58,7 +57,6 @@
                                                 <tr>
                                                     <td><?= $item['kode_tindakan']; ?></td>
                                                     <td><?= $item['tindakan']; ?></td>
-                                                    <td><?= $item['tarif']; ?></td>
                                                     <td>
                                                         <button data-target="#editDiagnosa" data-toggle='modal' class="btn btn-warning btn-edit" data-id="<?= $item['id']; ?>" data-kode="<?= $item['kode_tindakan']; ?>" data-tindakan="<?= $item['tindakan']; ?>" data-tarif="<?= $item['tarif']; ?>">Edit</button>
                                                         <a href="<?= base_url('/tindakan/delete/' . $item['id']); ?>" onclick="return confirm('apakah kamu yakin ingin menghapus data ini')" class="btn btn-danger">Hapus</a>
@@ -99,11 +97,6 @@
                                     <label class="form-check-label" for="">Tindakan</label>
                                     <input type="text" class="form-control" name="tindakan" id="dosis">
                                 </div>
-
-                                <div class="mb-3">
-                                    <label class="form-check-label" for="">Tarif</label>
-                                    <input type="number" class="form-control" name="tarif" id="harga">
-                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -134,11 +127,6 @@
                                     <label class="form-check-label" for="">Tindakan</label>
                                     <input type="text" class="form-control" name="tindakan" id="tindakan_edit">
                                 </div>
-
-                                <div class="mb-3">
-                                    <label class="form-check-label" for="">Tarif</label>
-                                    <input type="number" class="form-control" name="tarif" id="tarif">
-                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -162,7 +150,6 @@
         $('#id_edit').val(id);
         $('#kode_tindakan').val(kode_tindakan);
         $('#tindakan_edit').val(tindakan);
-        $('#tarif').val(tarif);
 
     });
 </script>

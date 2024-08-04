@@ -48,4 +48,23 @@ class TindakanModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+
+    public function getTopTindakan($start_date, $end_date)
+    {
+
+        $builder = $this->db->table('tindakan_pelayanan tp');
+
+        $builder->select('t.id AS tindakan_id, t.tindakan AS nama_tindakan, COUNT(tp.id) AS jumlah_pelayanan , t.kode_tindakan');
+        $builder->join('tindakan t', 'tp.tindakan_id = t.id');
+        $builder->join('pelayanan p', 'tp.pelayanan_id = p.id');
+        $builder->where('p.tgl_pelayanan >=', $start_date);
+        $builder->where('p.tgl_pelayanan <=', $end_date);
+        $builder->groupBy('t.id, t.tindakan');
+        $builder->orderBy('jumlah_pelayanan', 'DESC');
+        $builder->limit(10);
+
+        $query = $builder->get();
+        return $query->getResultArray();
+    }
 }

@@ -16,6 +16,17 @@ class TindakanPelayananModel extends Model
         'tindakan_id', 'pelayanan_id'
     ];
 
+
+    public function getPopularDiagnosa($limit = 10)
+    {
+        return $this->select('tindakan.id, tindakan.tindakan,  tindakan.kode_tindakan, COUNT(tindakan_pelayanan.tindakan_id) as total_tindakan')
+            ->join('tindakan', 'tindakan.id = tindakan_pelayanan.tindakan_id')
+            ->groupBy('tindakan_pelayanan.tindakan_id')
+            ->orderBy('total_tindakan', 'DESC')
+            ->limit($limit)
+            ->findAll();
+    }
+
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
 

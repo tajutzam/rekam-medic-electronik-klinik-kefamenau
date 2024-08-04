@@ -18,7 +18,7 @@
                 </div>
             </div>
             <section class="content">
-                <div class="container-fluid">
+                <div class="">
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
@@ -48,6 +48,7 @@
                                                 <th>Nama Pasien</th>
                                                 <th>Jenis Kelamin</th>
                                                 <th>Usia</th>
+                                                <th>Ktp</th>
                                                 <th>Alamat</th>
                                                 <th>Aksi</th>
                                             </tr>
@@ -59,11 +60,12 @@
                                                     <td><?= $pasien['nama_lengkap'] ?></td>
                                                     <td><?= $pasien['jenis_kelamin'] ?></td>
                                                     <td><?= $pasien['usia'] ?></td>
+                                                    <td><?= $pasien['nomor_ktp'] ?></td>
                                                     <td><?= $pasien['alamat'] ?></td>
                                                     <td>
                                                         <a href="/pasien/edit/<?= $pasien['id'] ?>"><i class="fas fa-edit text-blue" title="edit"></i></a>
                                                         <!-- <a href="/pasien/detail/<?= $pasien['id'] ?>"><i class="fas fa-eye text-warning" title="detail"></i></a> -->
-                                                        <a href="/pasien/print/<?= $pasien['id'] ?>"><i class="fas fa-print text-success" title="cetak-kib"></i></a>
+                                                        <a href="/rekam-medis/cetak-kib/<?= $pasien['nomor_rm'] ?>"><i class="fas fa-print text-success" title="cetak-kib"></i></a>
                                                         <a href="/pasien/delete/<?= $pasien['id'] ?>" onclick="return confirm('Apakah Anda yakin?')"><i class="fas fa-trash-alt text-red" title="delete"></i></a>
                                                     </td>
                                                 </tr>

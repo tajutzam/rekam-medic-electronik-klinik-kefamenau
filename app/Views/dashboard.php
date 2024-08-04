@@ -1,3 +1,5 @@
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <div class="content-wrapper">
     <section class="content">
 
@@ -66,63 +68,68 @@
                 </div>
             </div>
             <section class="content">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">10 Diagnosa Terpopuler</h3>
+                <div class="d-flex justify-content-center">
+                    <div style="width: 90%; height: 50%;" class="card">
+                        <div class="card-body row">
+                            <form method="post" class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <div class="form-label">
+                                        <label for="">Dari tanggal</label>
+                                        <input class="form-control" type="date" name="start_date" required>
+                                        <label for="">Sampai tanggal</label>
+                                        <input class="form-control" type="date" name="end_date" required>
+                                        <button type="submit" class="btn btn-primary mt-3">Cetak</button>
+                                    </div>
                                 </div>
-                                <!-- /.card-header -->
-                                <div class="card-body">
-                                    <table id="example2" class="table table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Diagnosa</th>
-                                                <th>Jumlah Pasien Terdiagnosa</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Sakit Kepala</td>
-                                                <td> 20</td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Sakit Kepala</td>
-                                                <td> 20</td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Sakit Kepala</td>
-                                                <td> 20</td>
-                                            </tr>
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Diagnosa</th>
-                                                <th>Jumlah Pasien Terdiagnosa</th>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
+                            </form>
+                            <form method="post" action="/dashboard/filter" class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <div class="form-label">
+                                        <label for="">Dari tanggal</label>
+                                        <input class="form-control" type="date" name="start_date" required>
+                                        <label for="">Sampai tanggal</label>
+                                        <input class="form-control" type="date" name="end_date" required>
+                                        <button type="submit" class="btn btn-success mt-3">Terapkan Filter</button>
+                                        <a href="/dashboard" class="btn btn-danger mt-3">Reset</a>
+                                    </div>
                                 </div>
-                                <!-- /.card-body -->
-                            </div>
-                            <!-- /.card -->
+                            </form>
+                            <canvas id="pendaftaranChart"></canvas>
                         </div>
-                        <!-- /.col -->
                     </div>
-                    <!-- /.row -->
                 </div>
-                <!-- /.container-fluid -->
             </section>
     </section>
 </div>
 
 <script>
+    var ctxPendaftaran = document.getElementById('pendaftaranChart').getContext('2d');
 
+
+    var pendaftaranLabels = <?= $pendaftaranLabels ?>;
+    var pendaftaranData = <?= $pendaftaranData ?>;
+
+    var pendaftaranChart = new Chart(ctxPendaftaran, {
+        type: 'line',
+        data: {
+            labels: pendaftaranLabels,
+            datasets: [{
+                label: 'Jumlah Kunjungan Pasien Setiap Bulan Nya',
+                data: pendaftaranData,
+                backgroundColor: 'red',
+                borderColor: 'red',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
 </script>
 <!-- /.content-wrapper -->

@@ -39,18 +39,17 @@ class PasienTable extends Migration
                 'type' => 'DATE',
             ],
             'usia' => [
-                'type' => 'INT',
-                'constraint' => 3,
+                'type' => 'varchar',
+                'constraint' => 100,
             ],
             'jenis_kelamin' => [
-                'type'       => 'ENUM',
-                'constraint' => ['Laki-laki', 'Perempuan'],
-                'default'    => 'Laki-laki',
+                'type'       => 'int',
+                'default'    => 0,
             ],
             'jenis_pasien' => [
                 'type'       => 'ENUM',
-                'constraint' => ['Laki-laki', 'Perempuan'],
-                'default'    => 'Laki-laki',
+                'constraint' => ['UMUM', 'BPJS'],
+                'default'    => 'UMUM',
             ],
             'alamat' => [
                 'type' => 'TEXT',

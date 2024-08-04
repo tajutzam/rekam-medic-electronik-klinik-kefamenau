@@ -43,6 +43,35 @@ class PasienModel extends Model
         'deleted_at'
     ];
 
+
+    public function getPendaftaranBulanan()
+    {
+        $builder = $this->db->table($this->table);
+        $builder->select('MONTH(created_at) as bulan, COUNT(*) as jumlah');
+        $builder->groupBy('bulan');
+        $builder->orderBy('bulan');
+        $query = $builder->get();
+
+        $result = $query->getResultArray();
+
+        // Inisialisasi array bulan dengan nilai 0
+        $data = array_fill_keys(
+            array_map(function ($num) {
+                return date('F', mktime(0, 0, 0, $num, 10));
+            }, range(1, 12)),
+            0
+        );
+
+        // Isi data dengan hasil query
+        foreach ($result as $row) {
+            $bulan = date('F', mktime(0, 0, 0, $row['bulan'], 10));
+            $data[$bulan] = $row['jumlah'];
+        }
+
+        return $data;
+    }
+
+
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
 
@@ -50,7 +79,7 @@ class PasienModel extends Model
     protected array $castHandlers = [];
 
     // Dates
-    protected $useTimestamps = false;
+    protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
@@ -85,7 +114,7 @@ class PasienModel extends Model
             $newNumber = 1;
         }
 
-        $data['data']['nomor_rm'] = 'RM' . str_pad($newNumber, 5, '0', STR_PAD_LEFT);
+        $data['data']['nomor_rm'] = str_pad($newNumber, 6, '0', STR_PAD_LEFT);
 
         return $data;
     }

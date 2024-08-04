@@ -45,4 +45,22 @@ class DiagnosaModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+
+    public function getTopDiagnosa($start_date, $end_date)
+    {
+        $builder = $this->db->table('diagnosa_pelayanan dp');
+
+        $builder->select('d.id AS diagnosa_id, d.diagnosa AS nama_diagnosa, COUNT(dp.id) AS jumlah_pelayanan , d.kode_diagnosa');
+        $builder->join('diagnosa d', 'dp.diagnosa_id = d.id');
+        $builder->join('pelayanan p', 'dp.pelayanan_id = p.id');
+        $builder->where('p.tgl_pelayanan >=', $start_date);
+        $builder->where('p.tgl_pelayanan <=', $end_date);
+        $builder->groupBy('d.id, d.diagnosa');
+        $builder->orderBy('jumlah_pelayanan', 'DESC');
+        $builder->limit(10);
+
+        $query = $builder->get();
+        return $query->getResultArray();
+    }
 }

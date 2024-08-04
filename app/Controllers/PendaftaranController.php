@@ -55,8 +55,8 @@ class PendaftaranController extends BaseController
 
     public function store()
     {
-        // Ambil semua data yang dikirimkan dari form
-        $session = new Session();
+      
+        $session = session();
         $data = $this->request->getPost();
         $validation = \Config\Services::validation();
         $validation->setRules([
@@ -65,8 +65,9 @@ class PendaftaranController extends BaseController
             'nama_lengkap' => 'required|max_length[100]',
             'tempat_lahir' => 'max_length[100]',
             'tanggal_lahir' => 'required|valid_date',
-            'usia' => 'required|integer',
-            'jenis_kelamin' => 'required|in_list[Laki-laki,Perempuan]',
+            'usia' => 'required',
+            'jenis_kelamin' => 'required',
+            'jenis_pasien' => 'required|in_list[UMUM,BPJS]',
             'alamat' => 'required|max_length[255]',
             'nomor_hp' => 'required|max_length[20]',
             'agama' => 'max_length[50]',
@@ -85,6 +86,7 @@ class PendaftaranController extends BaseController
             'riwayat_alergi' => 'max_length[255]',
         ]);
         if (!$validation->withRequest($this->request)->run()) {
+            $session->setFlashdata('error', $validation->getErrors()[0]);
             return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
 
@@ -105,13 +107,9 @@ class PendaftaranController extends BaseController
         if (!$validation->withRequest($this->request)->run()) {
             return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
-
-        // Simpan data pendaftaran baru ke database
         if ($this->pendaftaran->save($data)) {
-            // Jika penyimpanan berhasil, kembalikan ke halaman index dengan pesan sukses
             return redirect()->to('/pendaftaran')->with('success', 'Pendaftaran berhasil disimpan.');
         } else {
-            // Jika penyimpanan gagal, kembalikan ke halaman sebelumnya dengan pesan error
             return redirect()->back()->withInput()->with('error', 'Gagal menyimpan pendaftaran.');
         }
     }

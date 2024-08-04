@@ -7,9 +7,17 @@
                     <!-- small box -->
                     <h3>Data Obat</h3>
                     <button class="btn btn-primary btn-tambah">Tambah Obat</button>
-                    <a href="<?= base_url('/rekam-medis/pelayanan/') . $pasien['nomor_rm'] . '/create'; ?>" class="btn btn-success">Next</a>
+                    <form action="<?= base_url('/rekam-medis/total/' . $segment1 . '/' . $segment2 . ''); ?>" method="post" class="d-inline">
+                        <?php if (sizeof($obats) > 0) : ?>
+                            <!-- TRUE -->
+                            <input type="text" name="id" value="<?= $obats[0]['id_apotik']; ?>" hidden>
+                        <?php else : ?>
+                            <input type="text" name="id" value="<?= "0"; ?>" hidden>
+                            <!-- FALSE -->
+                        <?php endif ?>
+                        <button type="submit" class="btn btn-success">Next</button>
+                    </form>
                 </div>
-                <!-- ./col -->
             </div>
             <section class="content mt-4">
                 <div class="container-fluid">
@@ -86,7 +94,7 @@
             <!-- Tambah Obat Modal -->
             <div class="modal fade" id="tambahDiagnosa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
-                    <form method="post" action="<?= base_url('/obat/create'); ?>">
+                    <form method="post" action="<?= base_url('/rekam-medis/tambahobat/' . $segment1 . '/' . $segment2); ?>">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">Tambah Obat</h5>
@@ -96,29 +104,20 @@
                             </div>
                             <div class="modal-body">
                                 <div class="mb-3">
-                                    <label class="form-check-label" for="kode_obat">KODE OBAT</label>
-                                    <input type="text" class="form-control" name="kode_obat" id="kode_obat">
+                                    <label class="form-check-label" for="dosis">Pilih Obat</label>
+                                    <select class="form-control" name="obat_id" id="obat_add">
+                                        <?php foreach ($obatData as $item) : ?>
+                                            <option data-harga="<?= $item['harga']; ?>" value="<?= $item['id']; ?>"><?= $item['nama_obat']; ?></option>
+                                        <?php endforeach ?>
+                                    </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-check-label" for="dosis">DOSIS</label>
-                                    <input type="text" class="form-control" name="dosis" id="dosis">
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-check-label" for="satuan">SATUAN</label>
-                                    <input type="text" class="form-control" name="satuan" id="satuan">
+                                    <label class="form-check-label" for="nama_obat">Catatan</label>
+                                    <input type="text" class="form-control" name="catatan" id="nama_obat" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-check-label" for="nama_obat">NAMA</label>
-                                    <input type="text" class="form-control" name="nama_obat" id="nama_obat">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-check-label" for="harga">HARGA OBAT</label>
-                                    <input type="number" class="form-control" name="harga" id="harga">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-check-label" for="catatan">CATATAN</label>
-                                    <input type="text" class="form-control" name="catatan" id="catatan">
+                                    <label class="form-check-label" for="harga">Jumlah</label>
+                                    <input type="number" class="form-control" name="jumlah" id="harga" required>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -129,11 +128,10 @@
                     </form>
                 </div>
             </div>
-
             <!-- Edit Obat Modal -->
             <div class="modal fade" id="editDiagnosa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
-                    <form action="<?= base_url('/obat/detail/update'); ?>" method="post">
+                    <form method="post">
                         <input type="text" id="id" name="id" hidden>
                         <div class="modal-content">
                             <div class="modal-header">
@@ -204,7 +202,6 @@
         var total = $(this).data('total');
         var jumlah = $(this).data('jumlah');
 
-
         $("#editDiagnosa #kode_obat").val(kode_obat);
         $("#editDiagnosa #dosis").val(dosis);
         $("#editDiagnosa #satuan").val(satuan);
@@ -223,4 +220,20 @@
         let total = harga * jumlah;
         $("#editDiagnosa #total_edit").val(total);
     }
+
+
+    function changeTotalAdd() {
+        const harga = document.getElementById('harga_edit').value;
+        const jumlah = document.getElementById('jumlah_edit').value;
+        let total = harga * jumlah;
+        $("#editDiagnosa #total_edit").val(total);
+    }
+
+
+    document.getElementById('nextBtn').addEventListener('click', function() {
+        const total = document.getElementById('total_edit').value;
+        const nomor_rm = "<?= $pasien['nomor_rm'] ?>"; // Assuming this is defined in your PHP code
+
+        window.location.href = `<?= base_url('/rekam-medis/pelayanan/') ?>${nomor_rm}/create?total=${total}`;
+    });
 </script>

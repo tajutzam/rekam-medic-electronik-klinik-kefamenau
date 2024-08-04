@@ -23,10 +23,16 @@
 
     <link rel="stylesheet" href="<?= base_url('AdminLTE/plugins/select2/css/select2.min.css'); ?>">
     <link rel="stylesheet" href="<?= base_url('AdminLTE/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css'); ?>">
+    <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@9.17.2/dist/sweetalert2.min.css">
 
 
     <style>
         .bg-tosca {
+            background-color: #386641;
+        }
+
+        .sidebar-mini {
             background-color: #386641;
         }
     </style>

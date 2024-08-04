@@ -69,5 +69,6 @@ class AssessmenApotikDetail extends Migration
     public function down()
     {
         //
+        $this->forge->dropTable('assesmen_apotik_detail');
     }
 }

@@ -8,8 +8,7 @@
                     <div class="small-box bg-info">
                         <div class="inner">
                             <h3><?= sizeof($obats) ?></h3>
-
-                            <p>Jumlah Diagnosa</p>
+                            <p>Jumlah Obat</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-bag"></i>
@@ -20,7 +19,7 @@
                 <!-- ./col -->
             </div>
             <section class="content">
-                <div class="container-fluid">
+                <div class="">
                     <div class="row">
                         <div class="col-12">
                             <div class="card">

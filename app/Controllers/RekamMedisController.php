@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\AssesmeModel;
 use App\Models\ObatModel;
 use App\Models\PasienModel;
 use App\Models\PelayananModel;
@@ -10,6 +11,13 @@ use App\Models\PendaftaranModel;
 use App\Models\UserModel;
 use CodeIgniter\HTTP\ResponseInterface;
 use Config\Session;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Endroid\QrCode\QrCode;
+
+use Endroid\QrCode\Writer\PngWriter;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
 
 class RekamMedisController extends BaseController
 {
@@ -23,6 +31,8 @@ class RekamMedisController extends BaseController
     protected $obats;
 
 
+    protected $assessmen;
+
 
     public function __construct()
     {
@@ -31,6 +41,7 @@ class RekamMedisController extends BaseController
         $this->user = new UserModel();
         $this->pelayanan = new PelayananModel();
         $this->obats = new ObatModel();
+        $this->assessmen = new AssesmeModel();
     }
 
 
@@ -55,18 +66,17 @@ class RekamMedisController extends BaseController
 
     public function pelayanan($id)
     {
-
-
         $pasien = $this->pasien->where('nomor_rm', $id)->first();
 
 
-        $pelayanan = $this->pelayanan
-            ->select('pelayanan.*, pasien.*, petugas.nama_lengkap as nama_petugas, dokter.nama_lengkap as nama_dokter')
-            ->join('pasien', 'pasien.id = pelayanan.pasien_id')
+        $pelayanan = $this->assessmen->select(
+            'pasien.*, petugas.nama_lengkap as nama_petugas, dokter.nama_lengkap as nama_dokter, pelayanan.*,assesmen.*,assesmen.id as id_assesmen, pelayanan.id as id_pelayanan'
+        )->join('pelayanan', 'assesmen.id_pelayanan = pelayanan.id')->join('pasien', 'pasien.id = pelayanan.pasien_id')
             ->join('users as petugas', 'petugas.id = pelayanan.petugas_id')
             ->join('users as dokter', 'dokter.id = pelayanan.dokter_id')
-            ->where('pelayanan.pasien_id', $pasien['id'])
-            ->findAll();
+            ->where('pelayanan.pasien_id', $pasien['id'])->
+            findAll();
+        
 
         $header['title'] = 'Rekam-medic';
         $data['pasien'] = $pasien;
@@ -145,5 +155,30 @@ class RekamMedisController extends BaseController
         echo view('partial/sidebar');
         echo view('partial/footer');
         return view('rekam-medis/create_anamnesa', $data);
+    }
+
+
+    public function cetakKib($segment1)
+    {
+        $qrCode = QrCode::create($segment1)
+            ->setSize(100)
+            ->setMargin(10)
+            ->setEncoding(new Encoding('UTF-8'));
+        $writer = new PngWriter();
+
+        $qrCodeDataUri = $writer->write($qrCode)->getDataUri();
+
+
+        $pasien = $this->pasien->where('nomor_rm', $segment1)->first();
+
+        $options = new Options();
+        $options->set('defaultFont', 'Courier');
+        $dompdf = new Dompdf($options);
+
+        $html = view('rekam-medis/kib', ['qrCodeDataUrl' => $qrCodeDataUri, 'segment1' => $segment1, 'pasien' => $pasien]);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A5', 'portrait');
+        $dompdf->render();
+        $dompdf->stream("kartu_indeks_obat.pdf", array("Attachment" => 0));
     }
 }

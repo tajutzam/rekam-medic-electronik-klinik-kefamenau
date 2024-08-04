@@ -16,6 +16,17 @@ class DiagnosaPelayananModel extends Model
         'diagnosa_id', 'pelayanan_id', 'jenis'
     ];
 
+
+    public function getPopularDiagnosa($limit = 10)
+    {
+        return $this->select('diagnosa.id, diagnosa.diagnosa,  diagnosa.kode_diagnosa, COUNT(diagnosa_pelayanan.diagnosa_id) as total_diagnosa')
+            ->join('diagnosa', 'diagnosa.id = diagnosa_pelayanan.diagnosa_id')
+            ->groupBy('diagnosa_pelayanan.diagnosa_id')
+            ->orderBy('total_diagnosa', 'DESC')
+            ->limit($limit)
+            ->findAll();
+    }
+
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
 

@@ -40,7 +40,7 @@ class TindakanController extends BaseController
             $validation->setRules([
                 'kode_tindakan' => 'required|is_unique[tindakan.kode_tindakan]',
                 'tindakan' => 'required',
-                'tarif' => 'required',
+
             ]);
 
             if (!$validation->withRequest($this->request)->run()) {
@@ -67,14 +67,10 @@ class TindakanController extends BaseController
     public function update()
     {
         try {
-
-
             $validation = \Config\Services::validation();
-
             $validation->setRules([
                 'kode_tindakan' => 'required',
                 'tindakan' => 'required',
-                'tarif' => 'required',
                 'id' => 'required'
             ]);
 
@@ -87,10 +83,7 @@ class TindakanController extends BaseController
                 'tindakan' => $this->request->getPost('tindakan'),
                 'tarif' => $this->request->getPost('tarif'),
             ];
-
-            // Update data berdasarkan ID yang ditemukan
             $this->tindakan->update($this->request->getPost('id'), $data);
-
             return redirect()->back()->with('success', 'tindakan berhasil diperbarui!');
         } catch (\Throwable $th) {
             return redirect()->back()->withInput()->with('errors', [

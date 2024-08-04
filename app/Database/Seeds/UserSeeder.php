@@ -9,9 +9,7 @@ class UserSeeder extends Seeder
 {
     public function run()
     {
-
         // 'constraint' => ['petugas', 'dokter', 'kepala-klinik', 'farmasi', 'admin'],
-
         $data = [
             [
                 'nama_lengkap' => 'admin',
@@ -26,6 +24,7 @@ class UserSeeder extends Seeder
                 'created_at' => Time::now(),
                 'updated_at' => Time::now(),
                 'deleted_at' => null,
+
             ],
             [
                 'nama_lengkap' => 'petugas',

@@ -42,6 +42,10 @@ class PelayananTable extends Migration
                 'type' => 'DATETIME',
                 'null' => true,
             ],
+            'signature' => [
+                'type'       => 'BLOB',
+                'null'       => true,
+            ],
             'deleted_at' => [
                 'type' => 'DATETIME',
                 'null' => true,

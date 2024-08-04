@@ -42,7 +42,7 @@ class TindakanPelayananTable extends Migration
 
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('pelayanan_id', 'pelayanan', 'id', 'CASCADE', 'CASCADE');
-        $this->forge->addForeignKey('tindakan_id', 'diagnosa', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('tindakan_id', 'tindakan', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('tindakan_pelayanan');
     }
 

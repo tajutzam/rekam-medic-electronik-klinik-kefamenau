@@ -7,13 +7,12 @@
                     <!-- small box -->
                     <div class="small-box bg-info">
                         <div class="inner">
-                            <h3>10</h3>
+                            <h3><?= sizeof($pasiens); ?></h3>
                             <p>Jumlah Rekam Medis</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-ios-book"></i>
                         </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->
@@ -22,7 +21,7 @@
 
             <!-- Section for Rekam Medis -->
             <section class="content">
-                <div class="container-fluid">
+                <div class="">
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
@@ -54,8 +53,7 @@
                                                     <td><?= $item['jenis_kelamin'] == 'Laki-laki' ? 'L' : 'P' ?></td>
                                                     <td>
                                                         <a href="<?= base_url('/rekam-medis/pelayanan/' . $item['nomor_rm']); ?>" class="badge bg-warning text-decoration-none">Pelayanan</a>
-                                                        <a href="<?= base_url('/rekam-medis/pelayanan/'); ?>" class="badge bg-success text-decoration-none">Cetak Laporan</a>
-                                                        <a href="<?= base_url('/rekam-medis/pelayanan/'); ?>" class="badge bg-primary text-decoration-none">Lihat Riwayat</a>
+                                                        <a href="<?= base_url('/rekam-medis/cetak-kib/' . $item['nomor_rm']); ?>" target="_blank" class="badge bg-success text-decoration-none">Cetak KIB</a>
                                                     </td>
                                                 </tr>
                                             <?php endforeach ?>

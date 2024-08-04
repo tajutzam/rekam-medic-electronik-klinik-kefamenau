@@ -13,6 +13,7 @@
         "php": "^8.1",
         "chillerlan/php-qrcode": "^5.0",
         "codeigniter4/framework": "^4.0",
+        "dompdf/dompdf": "^3.0",
         "endroid/qr-code": "^5.0",
         "fpdf/fpdf": "^1.86"
     },

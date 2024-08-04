@@ -20,7 +20,7 @@
                 <!-- ./col -->
             </div>
             <section class="content">
-                <div class="container-fluid">
+                <div class="">
                     <div class="row">
                         <div class="col-12">
                             <div class="card">

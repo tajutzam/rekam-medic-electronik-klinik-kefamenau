@@ -2,9 +2,11 @@
     <div class="login-box">
         <div class="card card-outline card-primary text-center">
             <div class="card-header text-center">
-                <a href="../../index2.html" class="h1"><b>KLINIK JENDRAL KEFAMENANU</b></a>
+                <img src="/logo.png" alt="AdminLTE Logo" height="100px" class=" img-circle elevation-3 flex justify-content-center" style="opacity: 100%">
+                <a href="../../index2.html" class="h1 d-block"><b>KLINIK JENDRAL KEFAMENANU</b></a>
             </div>
             <div class="card-body">
+
                 <p class="login-box-msg">Silahkan login dengan memasukan username dan pasword</p>
                 <?php if (session()->getFlashdata('error')) : ?>
                     <p style="color: red;"><?php echo session()->getFlashdata('error'); ?></p>

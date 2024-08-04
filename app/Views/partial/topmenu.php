@@ -1,7 +1,5 @@
 <!-- Navbar -->
-<nav class="main-header navbar navbar-expand navbar-white navbar-light">
+<nav class="main-header navbar navbar-expand navbar-white ">
 
-
-    </ul>
 </nav>
 <!-- /.navbar -->
